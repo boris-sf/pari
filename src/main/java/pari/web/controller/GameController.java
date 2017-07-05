@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pari.business.dao.GameDao;
 import pari.business.model.Game;
 
+@CrossOrigin
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/game")
 public class GameController {
 
