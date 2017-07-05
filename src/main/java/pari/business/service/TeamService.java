@@ -27,4 +27,8 @@ public class TeamService {
 		team.setLogo(logo);
 		return teams.save(team);
 	}
+
+	public void delete(long id) {
+		teams.delete(id);
+	}
 }
