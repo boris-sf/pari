@@ -35,8 +35,7 @@ public class GameService {
 			throw new IllegalArgumentException("StartDate canot be in the past");
 		}
 		/*if (startDate.getTime() < System.currentTimeMillis()) {
-			// throw new IllegalArgumentException("StartDate canot be in the
-			// past");
+			throw new IllegalArgumentException("StartDate canot be in the past");
 		}*/
 		if (teamA == teamB) {
 			throw new IllegalArgumentException("Team A and B must not be equal");
