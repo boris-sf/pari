@@ -30,12 +30,15 @@ public class GuessService {
 		return guesses.save(guess);
 	}
 
-	public Guess update(long game, int scoreA, int scoreB) {
+	public Guess update(long game, Score score) {
 		final Guess guess = lookup(game);
 		if (guess == null) {
 			throw new IllegalArgumentException(format("Guess for game=%s not found for current user", game));
 		}
-		guess.setScore(new Score(scoreA, scoreB));
+		if (guess.getGame().getStartDate().getTime() < System.currentTimeMillis()) {
+			throw new IllegalStateException(format("Game is alredy started"));
+		}
+		guess.setScore(score);
 		return guesses.save(guess);
 	}
 

@@ -13,6 +13,10 @@ import pari.business.model.Game;
 @Repository
 public interface GameDao extends JpaRepository<Game, Long> {
 
-	@Query("select g from Game g where g.startDate >= :startDate")
+	@Query("select g from Game g where g.startDate >= :startDate order by g.startDate")
 	List<Game> upcoming(@Param("startDate") Date startDate);
+
+	@Query("select g from Game g order by g.startDate")
+	List<Game> all();
+
 }

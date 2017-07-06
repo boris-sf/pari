@@ -13,6 +13,10 @@ public class Score {
 		this.scoreB = scoreB;
 	}
 
+	public boolean complete() {
+		return scoreA != null && scoreB != null;
+	}
+
 	public Integer getScoreA() {
 		return scoreA;
 	}
