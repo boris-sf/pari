@@ -13,8 +13,11 @@ import pari.business.model.Guess;
 @Repository
 public interface GuessDao extends JpaRepository<Guess, Long> {
 
-	@Query("select g from Guess g where g.user.id = :userId and g.game.startDate > :startDate")
+	@Query("select g from Guess g where g.user.id = :userId and g.game.startDate > :startDate order by g.game.startDate")
 	List<Guess> lookup(@Param("userId") long userId, @Param("startDate") Date startDate);
+
+	@Query("select g from Guess g where g.user.id = :userId order by g.game.startDate")
+	List<Guess> findAll(@Param("userId") long userId);
 
 	@Query("select g from Guess g where g.user.id = :userId and g.game.id = :gameId")
 	Guess lookup(@Param("userId") long userId, @Param("gameId") long gameId);

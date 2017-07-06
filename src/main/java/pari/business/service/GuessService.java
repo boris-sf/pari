@@ -25,22 +25,14 @@ public class GuessService {
 	@Autowired
 	private GameDao games;
 
-	public Guess lookup(long id) {
-		return guesses.findOne(id);
-	}
-
-	public List<Guess> lookup() {
-		return guesses.lookup(currentUser().id(), new Date());
+	public List<Guess> lookup(boolean active) {
+		final long userId = currentUser().id();
+		return active ? guesses.lookup(userId, new Date()) : guesses.findAll(userId);
 	}
 
 	public Guess create(long gameId, Score score) {
 		Guess guess = guesses.lookup(currentUser().id(), gameId);
-		if (guess == null) {
-			guess = new Guess();
-			guess.setUser(currentUser());
-			guess.setGame(game(gameId));
-		}
-		return update(guess, score);
+		return update(guess == null ? new Guess(currentUser(), game(gameId)) : guess, score);
 	}
 
 	private Guess update(Guess guess, Score score) {
