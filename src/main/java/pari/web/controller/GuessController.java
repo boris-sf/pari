@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -24,19 +24,19 @@ public class GuessController {
 	@Autowired
 	private GuessService guesses;
 
-	@GetMapping("/{gameId}")
-	public Guess lookup(@PathVariable("gameId") long gameId) {
-		return guesses.lookup(gameId);
+	@GetMapping("/{id}")
+	public Guess lookup(@PathVariable("id") long id) {
+		return guesses.lookup(id);
 	}
 
-	@PutMapping("/{gameId}")
-	public Guess update(@PathVariable("gameId") long gameId, @RequestBody Score score) {
-		return guesses.update(gameId, score);
+	@PostMapping("/{gameId}")
+	public Guess create(@PathVariable("gameId") long gameId, @RequestBody Score score) {
+		return guesses.create(gameId, score);
 	}
 
-	@DeleteMapping("/{gameId}")
+	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("gameId") long gameId) {
-		guesses.delete(gameId);
+	public void delete(@PathVariable("id") long id) {
+		guesses.delete(id);
 	}
 }

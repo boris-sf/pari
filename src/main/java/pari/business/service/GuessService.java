@@ -2,6 +2,9 @@ package pari.business.service;
 
 import static java.lang.String.format;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +13,7 @@ import pari.business.dao.GuessDao;
 import pari.business.model.Game;
 import pari.business.model.Guess;
 import pari.business.model.Score;
+import pari.business.model.User;
 
 @Service
 public class GuessService {
@@ -21,23 +25,25 @@ public class GuessService {
 	@Autowired
 	private GameDao games;
 
-	public Guess lookup(long gameId) {
-		return guesses.lookup(gameId, users.currentUser().id());
+	public Guess lookup(long id) {
+		return guesses.findOne(id);
 	}
 
-	public Guess create(long gameId, int scoreA, int scoreB) {
-		final Guess guess = new Guess();
-		guess.setScore(new Score(scoreA, scoreB));
-		guess.setUser(users.currentUser());
-		guess.setGame(game(gameId));
-		return guesses.save(guess);
+	public List<Guess> lookup() {
+		return guesses.lookup(currentUser().id(), new Date());
 	}
 
-	public Guess update(long gameId, Score score) {
-		final Guess guess = lookup(gameId);
+	public Guess create(long gameId, Score score) {
+		Guess guess = guesses.lookup(currentUser().id(), gameId);
 		if (guess == null) {
-			throw new IllegalArgumentException(format("Guess for game=%s not found for current user", gameId));
+			guess = new Guess();
+			guess.setUser(currentUser());
+			guess.setGame(game(gameId));
 		}
+		return update(guess, score);
+	}
+
+	private Guess update(Guess guess, Score score) {
 		if (guess.getGame().overdue()) {
 			throw new IllegalStateException(format("Game is alredy started"));
 		}
@@ -45,8 +51,8 @@ public class GuessService {
 		return guesses.save(guess);
 	}
 
-	public void delete(long gameId) {
-		final Guess guess = lookup(gameId);
+	public void delete(long id) {
+		final Guess guess = guesses.findOne(id);
 		if (guess != null) {
 			guesses.delete(guess);
 		}
@@ -58,5 +64,9 @@ public class GuessService {
 			throw new IllegalArgumentException(format("Game with id=%s not found", id));
 		}
 		return game;
+	}
+
+	private User currentUser() {
+		return users.currentUser();
 	}
 }
