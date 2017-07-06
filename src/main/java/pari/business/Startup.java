@@ -3,8 +3,6 @@ package pari.business;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import pari.business.dao.GameDao;
@@ -19,7 +17,7 @@ public class Startup {
 	@Autowired
 	private TeamService teams;
 
-	@EventListener(ContextRefreshedEvent.class)
+	// @EventListener(ContextRefreshedEvent.class)
 	public void startUp() {
 		games.save(game(new Date()));
 		teams.create("sparta", "http://sparta");

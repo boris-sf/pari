@@ -27,7 +27,7 @@ public class TeamController {
 	private TeamService teams;
 
 	@GetMapping
-	public List<Team> lookup(@RequestParam("name") String name) {
+	public List<Team> lookup(@RequestParam(name = "name", required = false, defaultValue = "") String name) {
 		return teams.lookup(name);
 	}
 

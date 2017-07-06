@@ -29,6 +29,9 @@ public class TeamService {
 	}
 
 	public void delete(long id) {
-		teams.delete(id);
+		final Team team = teams.findOne(id);
+		if (team != null) {
+			teams.delete(team);
+		}
 	}
 }
