@@ -29,8 +29,8 @@ public class GameService {
 		return games.save(game);
 	}
 
-	public List<Game> upcoming() {
-		return games.upcoming(new Date());
+	public List<Game> lookup(boolean upcoming) {
+		return upcoming ? games.upcoming(new Date()) : games.findAll();
 	}
 
 	public void delete(long id) {
