@@ -21,6 +21,7 @@ import pari.business.model.Game;
 import pari.business.model.Score;
 import pari.business.service.GameService;
 import pari.web.dto.GameDto;
+import pari.web.dto.NewGameDto;
 
 @CrossOrigin
 @RestController
@@ -41,7 +42,7 @@ public class GameController {
 	}
 
 	@PostMapping
-	public GameDto create(@RequestBody GameDto game) {
+	public GameDto create(@RequestBody NewGameDto game) {
 		return dto(games.create(game.getTeamA(), game.getTeamB(), game.getStartDate()));
 	}
 
