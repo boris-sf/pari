@@ -47,7 +47,7 @@ public class GameService {
 		if (game.getScore() != null && game.getScore().complete()) {
 			throw new IllegalStateException(format("Game score is already completed"));
 		}
-		if (game.getStartDate().getTime() > System.currentTimeMillis()) {
+		if (!game.overdue()) {
 			throw new IllegalStateException(format("Game is not started yet"));
 		}
 		game.setScore(score);

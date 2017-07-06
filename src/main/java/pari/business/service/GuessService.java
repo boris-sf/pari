@@ -35,7 +35,7 @@ public class GuessService {
 		if (guess == null) {
 			throw new IllegalArgumentException(format("Guess for game=%s not found for current user", game));
 		}
-		if (guess.getGame().getStartDate().getTime() < System.currentTimeMillis()) {
+		if (guess.getGame().overdue()) {
 			throw new IllegalStateException(format("Game is alredy started"));
 		}
 		guess.setScore(score);

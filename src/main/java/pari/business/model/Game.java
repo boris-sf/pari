@@ -17,6 +17,10 @@ public class Game extends BaseEntity {
 	@ManyToOne
 	private Team teamB;
 
+	public boolean overdue() {
+		return startDate.getTime() < System.currentTimeMillis();
+	}
+
 	public Date getStartDate() {
 		return startDate;
 	}
