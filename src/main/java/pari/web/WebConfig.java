@@ -13,7 +13,7 @@ public class WebConfig {
 		return new EmbeddedServletContainerCustomizer() {
 			@Override
 			public void customize(ConfigurableEmbeddedServletContainer container) {
-				container.setPort(18081);
+				container.setPort(8081);
 			}
 		};
 	}

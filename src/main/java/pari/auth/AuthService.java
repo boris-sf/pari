@@ -12,7 +12,11 @@ import pari.business.model.User;
 @Scope(scopeName = SCOPE_REQUEST, proxyMode = TARGET_CLASS)
 public class AuthService {
 
-	private User currentUser = new User("dummy");
+	private User currentUser = new User() {
+		public boolean hasRole(String role) {
+			return true;
+		};
+	};
 
 	public void init(User currentUser) {
 		this.currentUser = currentUser;

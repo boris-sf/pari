@@ -1,9 +1,12 @@
 package pari.business.service;
 
 import static java.lang.String.format;
+import static pari.business.model.User.ROLE_ADMIN;
 
 import java.util.Date;
 import java.util.List;
+
+import javax.annotation.security.RolesAllowed;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,7 @@ public class GameService {
 		return upcoming ? games.upcoming(new Date()) : games.all();
 	}
 
+	@RolesAllowed(ROLE_ADMIN)
 	public Game create(long teamA, long teamB, Date startDate) {
 		final Game game = new Game();
 		game.setStartDate(startDate);
@@ -34,6 +38,7 @@ public class GameService {
 		return games.save(game);
 	}
 
+	@RolesAllowed(ROLE_ADMIN)
 	public Game update(long id, Score score) {
 		final Game game = games.findOne(id);
 		if (game == null) {
@@ -49,6 +54,7 @@ public class GameService {
 		return games.save(game);
 	}
 
+	@RolesAllowed(ROLE_ADMIN)
 	public void delete(long id) {
 		final Game game = games.findOne(id);
 		if (game != null) {

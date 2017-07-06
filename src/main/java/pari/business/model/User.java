@@ -7,14 +7,9 @@ import javax.persistence.Entity;
 @Entity
 public class User extends BaseEntity {
 
+	public static final String ROLE_ADMIN = "admin";
+
 	private String name;
-
-	public User() {
-	}
-
-	public User(String name) {
-		setName(name);
-	}
 
 	public String getName() {
 		return name;
@@ -22,6 +17,10 @@ public class User extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean hasRole(String role) {
+		return false;
 	}
 
 	@Override
