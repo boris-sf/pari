@@ -46,6 +46,9 @@ public class GuessService {
 	public void delete(long id) {
 		final Guess guess = guesses.findOne(id);
 		if (guess != null) {
+			if (guess.getUser().id() != currentUser().id()) {
+				throw new IllegalArgumentException("Cannot delete other user's guess");
+			}
 			guesses.delete(guess);
 		}
 	}
