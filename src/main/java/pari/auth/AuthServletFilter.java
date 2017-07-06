@@ -26,7 +26,8 @@ public class AuthServletFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		final String header = request.getHeader("Pari-Auth");
 		if (header != null) {
-			auth.init(new ObjectMapper().readerFor(User.class).readValue(header));
+			final User currentUser = new ObjectMapper().readerFor(User.class).readValue(header);
+			auth.init(currentUser);
 		}
 		chain.doFilter(request, response);
 	}
