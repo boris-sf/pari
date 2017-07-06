@@ -32,10 +32,11 @@ public class GameService {
 	@RolesAllowed(ROLE_ADMIN)
 	public Game create(long teamA, long teamB, Date startDate) {
 		if (startDate == null) {
-			throw new IllegalArgumentException("StartDate canot be null");
+			throw new IllegalArgumentException("StartDate canot be in the past");
 		}
-		if (startDate == null) {
-			// throw new IllegalArgumentException("StartDate canot be in the past");
+		if (startDate.getTime() < System.currentTimeMillis()) {
+			// throw new IllegalArgumentException("StartDate canot be in the
+			// past");
 		}
 		if (teamA == teamB) {
 			throw new IllegalArgumentException("Team A and B must not be equal");
