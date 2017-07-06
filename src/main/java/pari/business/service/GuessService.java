@@ -5,7 +5,6 @@ import static java.lang.String.format;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pari.auth.AuthService;
 import pari.business.dao.GameDao;
 import pari.business.dao.GuessDao;
 import pari.business.model.Game;
@@ -16,24 +15,28 @@ import pari.business.model.Score;
 public class GuessService {
 
 	@Autowired
-	private AuthService auth;
+	private UserService users;
 	@Autowired
 	private GuessDao guesses;
 	@Autowired
 	private GameDao games;
 
-	public Guess create(long game, int scoreA, int scoreB) {
+	public Guess lookup(long gameId) {
+		return guesses.lookup(gameId, users.currentUser().id());
+	}
+
+	public Guess create(long gameId, int scoreA, int scoreB) {
 		final Guess guess = new Guess();
 		guess.setScore(new Score(scoreA, scoreB));
-		guess.setUser(auth.currentUser());
-		guess.setGame(game(game));
+		guess.setUser(users.currentUser());
+		guess.setGame(game(gameId));
 		return guesses.save(guess);
 	}
 
-	public Guess update(long game, Score score) {
-		final Guess guess = lookup(game);
+	public Guess update(long gameId, Score score) {
+		final Guess guess = lookup(gameId);
 		if (guess == null) {
-			throw new IllegalArgumentException(format("Guess for game=%s not found for current user", game));
+			throw new IllegalArgumentException(format("Guess for game=%s not found for current user", gameId));
 		}
 		if (guess.getGame().overdue()) {
 			throw new IllegalStateException(format("Game is alredy started"));
@@ -42,12 +45,8 @@ public class GuessService {
 		return guesses.save(guess);
 	}
 
-	public Guess lookup(long game) {
-		return guesses.lookup(game, auth.currentUser().id());
-	}
-
-	public void delete(long game) {
-		final Guess guess = lookup(game);
+	public void delete(long gameId) {
+		final Guess guess = lookup(gameId);
 		if (guess != null) {
 			guesses.delete(guess);
 		}

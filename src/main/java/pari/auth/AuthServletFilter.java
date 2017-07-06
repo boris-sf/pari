@@ -13,8 +13,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import pari.business.model.User;
-
 @Component
 public class AuthServletFilter extends OncePerRequestFilter {
 
@@ -26,8 +24,8 @@ public class AuthServletFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		final String header = request.getHeader("Pari-Auth");
 		if (header != null) {
-			final User currentUser = new ObjectMapper().readerFor(User.class).readValue(header);
-			auth.init(currentUser);
+			final Principal principal = new ObjectMapper().readerFor(Principal.class).readValue(header);
+			auth.init(principal);
 		}
 		chain.doFilter(request, response);
 	}

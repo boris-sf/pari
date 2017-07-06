@@ -1,15 +1,30 @@
 package pari.business.model;
 
-import static java.lang.String.format;
-
 import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-public class User extends BaseEntity {
+public class User {
 
 	public static final String ROLE_ADMIN = "admin";
 
+	@Id
+	private long id;
 	private String name;
+
+	User() {
+	}
+
+	public User(long id) {
+		this.id = id;
+	}
+
+	@JsonProperty
+	public long id() {
+		return id;
+	}
 
 	public String getName() {
 		return name;
@@ -17,14 +32,5 @@ public class User extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public boolean hasRole(String role) {
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return format("%s, name=%s", super.toString(), name);
 	}
 }

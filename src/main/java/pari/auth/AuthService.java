@@ -6,23 +6,21 @@ import static org.springframework.web.context.WebApplicationContext.SCOPE_REQUES
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import pari.business.model.User;
-
 @Component
 @Scope(scopeName = SCOPE_REQUEST, proxyMode = TARGET_CLASS)
 public class AuthService {
 
-	private User currentUser = new User() {
+	private Principal principal = new Principal() {
 		public boolean hasRole(String role) {
 			return true;
 		};
 	};
 
-	public void init(User currentUser) {
-		this.currentUser = currentUser;
+	public void init(Principal principal) {
+		this.principal = principal;
 	}
 
-	public User currentUser() {
-		return currentUser;
+	public Principal principal() {
+		return principal;
 	}
 }

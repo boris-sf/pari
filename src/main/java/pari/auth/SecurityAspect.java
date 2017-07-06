@@ -24,7 +24,7 @@ public class SecurityAspect {
 	@Around("execution(@javax.annotation.security.RolesAllowed * *.*(..))")
 	public Object verifyUserRoles(ProceedingJoinPoint jp) throws Throwable {
 		for (String role : annotation(jp, RolesAllowed.class).value()) {
-			if (auth.currentUser().hasRole(role)) {
+			if (auth.principal().hasRole(role)) {
 				return jp.proceed();
 			}
 		}
