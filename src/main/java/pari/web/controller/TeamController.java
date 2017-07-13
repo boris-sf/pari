@@ -1,7 +1,9 @@
 package pari.web.controller;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pari.business.model.Team;
 import pari.business.service.TeamService;
@@ -41,4 +43,11 @@ public class TeamController {
 	public void delete(@PathVariable("id") long id) {
 		teams.delete(id);
 	}
+
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(value = {ConstraintViolationException.class})
+	public ResponseEntity handleBadInput(ConstraintViolationException ex) {
+		return new ResponseEntity(HttpStatus.BAD_REQUEST);
+	}
+
 }
