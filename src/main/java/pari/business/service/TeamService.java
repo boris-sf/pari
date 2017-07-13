@@ -37,6 +37,7 @@ public class TeamService {
 		return teams.findAll(new Sort(Sort.Direction.DESC, "id"));
 	}
 
+	@Transactional
 	public Team create(String name, String logo) {
 		final Team team = new Team();
 		team.setName(name);
@@ -45,11 +46,13 @@ public class TeamService {
 	}
 
 	@RolesAllowed(ROLE_ADMIN)
+	@Transactional
 	public Team update(Team team) {
 		return teams.saveAndFlush(team);
 	}
 
 	@RolesAllowed(ROLE_ADMIN)
+	@Transactional
 	public void delete(long id) {
 		final Team team = teams.findOne(id);
 		if (team != null) {
