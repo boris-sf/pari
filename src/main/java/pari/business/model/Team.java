@@ -1,11 +1,14 @@
 package pari.business.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
 public class Team extends BaseEntity {
 
+	@Column(unique = true)
 	private String name;
+
 	private String logo;
 
 	public String getName() {
