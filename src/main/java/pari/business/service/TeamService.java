@@ -28,7 +28,7 @@ public class TeamService {
 
 	@Transactional(readOnly = true)
 	public List<Team> lookup(String name) {
-		return teams.lookup(format("%%%s%%", name), new PageRequest(0, 10));
+		return teams.lookup(format("%%%s%%", name), new PageRequest(0, Integer.MAX_VALUE));
 	}
 
 	@RolesAllowed(ROLE_ADMIN)
