@@ -13,6 +13,6 @@ import pari.business.model.Team;
 @Repository
 public interface TeamDao extends JpaRepository<Team, Long> {
 
-	@Query("select t from Team t where lower(t.name) like lower(:name) order by t.id desc")
+	@Query("select t from Team t where lower(t.name) like lower(:name) order by t.id asc")
 	List<Team> lookup(@Param("name") String name, Pageable page);
 }
