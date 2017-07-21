@@ -27,6 +27,12 @@ public class AuthServletFilter extends OncePerRequestFilter {
 			final Principal principal = new ObjectMapper().readerFor(Principal.class).readValue(header);
 			auth.init(principal);
 		}
+
+		// I don't know why added those but maybe it will help:
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
+		response.setHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+
 		chain.doFilter(request, response);
 	}
 }
