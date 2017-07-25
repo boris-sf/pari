@@ -35,6 +35,14 @@ public class GuessService {
 		return update(guess == null ? new Guess(currentUser(), game(gameId)) : guess, score);
 	}
 
+	public Guess update(long id, Score score) {
+		Guess guess = guesses.findOne(id);
+		if (guess == null || guess.getUser() == null || guess.getUser().id() != currentUser().id()) {
+			throw new IllegalStateException(format("Guess with id=%s not found", id));
+		}
+		return update(guess, score);
+	}
+
 	private Guess update(Guess guess, Score score) {
 		if (guess.getGame().overdue()) {
 			throw new IllegalStateException(format("Game is alredy started"));

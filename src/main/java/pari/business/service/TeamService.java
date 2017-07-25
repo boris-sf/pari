@@ -1,23 +1,20 @@
 package pari.business.service;
 
-import org.hibernate.exception.ConstraintViolationException;
+import static java.lang.String.format;
+import static pari.business.model.User.ROLE_ADMIN;
+
+import java.util.List;
+
+import javax.annotation.security.RolesAllowed;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
+
 import pari.business.dao.TeamDao;
 import pari.business.model.Team;
-
-import javax.annotation.security.RolesAllowed;
-import java.util.List;
-
-import static java.lang.String.format;
-import static pari.business.model.User.ROLE_ADMIN;
 
 @Service
 @Transactional

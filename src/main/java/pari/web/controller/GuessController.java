@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import pari.business.model.Guess;
+import pari.business.model.Score;
 import pari.business.service.GuessService;
 import pari.web.dto.NewGuessDto;
 
@@ -35,6 +37,11 @@ public class GuessController {
 	@PostMapping
 	public Guess create(@RequestBody NewGuessDto guess) {
 		return guesses.create(guess.getGameId(), guess.getScore());
+	}
+
+	@PutMapping("/{id}")
+	public Guess update(@PathVariable("id") long id, @RequestBody Score score) {
+		return guesses.update(id, score);
 	}
 
 	@DeleteMapping("/{id}")
