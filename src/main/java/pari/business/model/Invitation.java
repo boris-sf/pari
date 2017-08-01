@@ -14,9 +14,9 @@ public class Invitation extends BaseEntity {
 
 	private Status status = Status.pending;
 	@ManyToOne
-	@JsonIgnore
 	private User from;
 	@ManyToOne
+	@JsonIgnore
 	private User user;
 	@ManyToOne
 	private Game game;
