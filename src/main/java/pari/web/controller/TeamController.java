@@ -58,8 +58,7 @@ public class TeamController {
 
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(value = { ConstraintViolationException.class })
-	public ResponseEntity handleBadInput(ConstraintViolationException ex) {
-		return new ResponseEntity(HttpStatus.BAD_REQUEST);
+	public ResponseEntity<?> handleBadInput(ConstraintViolationException ex) {
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
-
 }

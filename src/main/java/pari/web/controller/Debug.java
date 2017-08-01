@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pari.business.dao.GameDao;
 import pari.business.dao.GuessDao;
+import pari.business.dao.InvitationDao;
 import pari.business.dao.TeamDao;
 import pari.business.dao.UserDao;
 import pari.business.model.Game;
 import pari.business.model.Guess;
+import pari.business.model.Invitation;
 import pari.business.model.Team;
 import pari.business.model.User;
 
@@ -28,6 +30,8 @@ public class Debug {
 	private GameDao games;
 	@Autowired
 	private GuessDao guesses;
+	@Autowired
+	private InvitationDao invitations;
 
 	@GetMapping("/users")
 	public List<User> users() {
@@ -47,5 +51,10 @@ public class Debug {
 	@GetMapping("/guesses")
 	public List<Guess> guesses() {
 		return guesses.findAll();
+	}
+
+	@GetMapping("/invitations")
+	public List<Invitation> invitations() {
+		return invitations.findAll();
 	}
 }
