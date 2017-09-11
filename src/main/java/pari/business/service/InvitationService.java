@@ -1,7 +1,10 @@
 package pari.business.service;
 
 import static java.lang.String.format;
+import static pari.business.model.Invitation.Status.accepted;
+import static pari.business.model.Invitation.Status.pending;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -12,10 +15,13 @@ import pari.business.dao.GameDao;
 import pari.business.dao.InvitationDao;
 import pari.business.model.Game;
 import pari.business.model.Invitation;
+import pari.business.model.Invitation.Status;
 import pari.business.model.User;
 
 @Service
 public class InvitationService {
+
+	private static final List<Status> activeStatus = Arrays.asList(pending, accepted);
 
 	@Autowired
 	private InvitationDao invitations;
@@ -37,8 +43,26 @@ public class InvitationService {
 		return invitation == null ? invitations.save(new Invitation(user, users.find(userId), game)) : invitation;
 	}
 
+	private Invitation findForUpdate(long id) {
+		final Invitation invitation = invitations.findOne(id);
+		if (invitation == null) {
+			throw new IllegalArgumentException(format("Invitation with id=%s not found", id));
+		}
+		if (invitation.getUser().id() != users.currentUser().id()) {
+			throw new IllegalArgumentException("Cannot update other user's invitation");
+		}
+		return invitation;
+	}
+
 	public List<Invitation> active() {
-		final User user = users.currentUser();
-		return invitations.lookup(user.id(), new Date());
+		return invitations.lookup(users.currentUser().id(), new Date(), activeStatus);
+	}
+
+	public Invitation accept(long id) {
+		return invitations.save(findForUpdate(id).accept());
+	}
+
+	public Invitation decline(long id) {
+		return invitations.save(findForUpdate(id).decline());
 	}
 }

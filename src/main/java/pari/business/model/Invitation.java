@@ -40,6 +40,16 @@ public class Invitation extends BaseEntity {
 		this.game = game;
 	}
 
+	public Invitation accept() {
+		this.status = Status.accepted;
+		return this;
+	}
+
+	public Invitation decline() {
+		this.status = Status.declined;
+		return this;
+	}
+
 	public Status getStatus() {
 		return status;
 	}
