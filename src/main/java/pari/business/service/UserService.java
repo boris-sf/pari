@@ -16,12 +16,11 @@ public class UserService {
 	private UserDao users;
 
 	public User currentUser() {
-		final long id = auth.principal().getId();
-		final User user = find(id);
-		return user == null ? users.save(new User(id)) : user;
+		return find(auth.principal().getId());
 	}
 
 	public User find(long id) {
-		return users.findOne(id);
+		final User user = users.findOne(id);
+		return user == null ? users.save(new User(id)) : user;
 	}
 }
