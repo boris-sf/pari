@@ -39,6 +39,9 @@ public class InvitationService {
 			throw new IllegalStateException("Game is already over");
 		}
 		final User user = users.currentUser();
+		if (user.id() == userId) {
+			throw new IllegalArgumentException("Self invites are not supported");
+		}
 		final Invitation invitation = invitations.lookup(user.id(), userId, gameId);
 		return invitation == null ? invitations.save(new Invitation(user, users.find(userId), game)) : invitation;
 	}
