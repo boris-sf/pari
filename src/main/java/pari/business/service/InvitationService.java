@@ -1,5 +1,7 @@
 package pari.business.service;
 
+import static java.lang.String.format;
+
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +26,9 @@ public class InvitationService {
 
 	public Invitation create(long userId, long gameId) {
 		final Game game = games.findOne(gameId);
+		if (game == null) {
+			throw new IllegalArgumentException(format("Game with id=%s not found", gameId));
+		}
 		if (game.overdue()) {
 			throw new IllegalStateException("Game is already over");
 		}
