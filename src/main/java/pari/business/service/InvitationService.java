@@ -46,17 +46,6 @@ public class InvitationService {
 		return invitation == null ? invitations.save(new Invitation(user, users.find(userId), game)) : invitation;
 	}
 
-	private Invitation findForUpdate(long id) {
-		final Invitation invitation = invitations.findOne(id);
-		if (invitation == null) {
-			throw new IllegalArgumentException(format("Invitation with id=%s not found", id));
-		}
-		if (invitation.getUser().id() != users.currentUser().id()) {
-			throw new IllegalArgumentException("Cannot update other user's invitation");
-		}
-		return invitation;
-	}
-
 	public List<Invitation> active() {
 		return invitations.lookup(users.currentUser().id(), new Date(), activeStatus);
 	}
@@ -67,5 +56,16 @@ public class InvitationService {
 
 	public Invitation decline(long id) {
 		return invitations.save(findForUpdate(id).decline());
+	}
+
+	private Invitation findForUpdate(long id) {
+		final Invitation invitation = invitations.findOne(id);
+		if (invitation == null) {
+			throw new IllegalArgumentException(format("Invitation with id=%s not found", id));
+		}
+		if (invitation.getUser().id() != users.currentUser().id()) {
+			throw new IllegalArgumentException("Cannot update other user's invitation");
+		}
+		return invitation;
 	}
 }

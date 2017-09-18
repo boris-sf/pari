@@ -1,6 +1,8 @@
 package pari.web.controller;
 
 import static java.lang.String.valueOf;
+import static pari.business.model.Invitation.Status.accepted;
+import static pari.business.model.Invitation.Status.declined;
 
 import java.util.List;
 
@@ -18,6 +20,7 @@ import pari.business.model.Invitation;
 import pari.business.model.Invitation.Status;
 import pari.business.service.InvitationService;
 import pari.web.dto.NewInvitationDto;
+import pari.web.dto.UpdateInvitationStatusDto;
 
 @CrossOrigin
 @RestController
@@ -38,13 +41,13 @@ public class InvitationController {
 	}
 
 	@PutMapping("/{id}")
-	public Invitation update(@PathVariable("id") long id, @RequestBody Status status) {
-		switch (status) {
-		case accepted:
+	public Invitation update(@PathVariable("id") long id, @RequestBody UpdateInvitationStatusDto dto) {
+		final Status status = dto.getStatus();
+		if (status == accepted) {
 			return invitations.accept(id);
-		case declined:
+		} else if (status == declined) {
 			return invitations.decline(id);
-		default:
+		} else {
 			throw new UnsupportedOperationException(valueOf(status));
 		}
 	}
