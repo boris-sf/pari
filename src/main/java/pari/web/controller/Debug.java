@@ -1,7 +1,7 @@
 package pari.web.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,19 +62,13 @@ public class Debug {
 		final List<Map<String, Object>> result = new ArrayList<>();
 		for (final Invitation iv : invitations.findAll()) {
 			final User user = iv.getUser();
-			result.add(new HashMap<String, Object>() {
+			result.add(new LinkedHashMap<String, Object>() {
 				{
 					put("user", user != null ? user.id() : null);
 					put("invitation", iv);
 				}
 			});
 		}
-		result.add(new HashMap<String, Object>() {
-			{
-				put("user", "123");
-				put("invitation", "hh");
-			}
-		});
 		return result;
 	}
 }
