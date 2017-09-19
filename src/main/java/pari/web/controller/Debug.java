@@ -61,13 +61,20 @@ public class Debug {
 	public List<Map<String, Object>> invitations() {
 		final List<Map<String, Object>> result = new ArrayList<>();
 		for (final Invitation iv : invitations.findAll()) {
+			final User user = iv.getUser();
 			result.add(new HashMap<String, Object>() {
 				{
-					put("user", iv.getUser().id());
+					put("user", user != null ? user.id() : null);
 					put("invitation", iv);
 				}
 			});
 		}
+		result.add(new HashMap<String, Object>() {
+			{
+				put("user", "123");
+				put("invitation", "hh");
+			}
+		});
 		return result;
 	}
 }
