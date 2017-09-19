@@ -60,7 +60,7 @@ public class Debug {
 	@SuppressWarnings("serial")
 	public List<Map<String, Object>> invitations() {
 		final List<Map<String, Object>> result = new ArrayList<>();
-		for (Invitation iv : invitations.findAll()) {
+		for (final Invitation iv : invitations.findAll()) {
 			result.add(new HashMap<String, Object>() {
 				{
 					put("user", iv.getUser().id());
