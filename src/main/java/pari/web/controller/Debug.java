@@ -59,11 +59,11 @@ public class Debug {
 	@GetMapping("/invitations")
 	@SuppressWarnings("serial")
 	public List<Map<String, Object>> invitations() {
-		final List<Map<String, Object>> result = new ArrayList();
+		final List<Map<String, Object>> result = new ArrayList<>();
 		for (Invitation iv : invitations.findAll()) {
 			result.add(new HashMap<String, Object>() {
 				{
-					put("from", iv.getFrom().id());
+					put("user", iv.getUser().id());
 					put("invitation", iv);
 				}
 			});
