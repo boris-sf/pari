@@ -1,6 +1,9 @@
 package pari.web.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,7 +57,17 @@ public class Debug {
 	}
 
 	@GetMapping("/invitations")
-	public List<Invitation> invitations() {
-		return invitations.findAll();
+	@SuppressWarnings("serial")
+	public List<Map<String, Object>> invitations() {
+		final List<Map<String, Object>> result = new ArrayList();
+		for (Invitation iv : invitations.findAll()) {
+			result.add(new HashMap<String, Object>() {
+				{
+					put("from", iv.getFrom().id());
+					put("invitation", iv);
+				}
+			});
+		}
+		return result;
 	}
 }
